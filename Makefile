@@ -1,11 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=minieap
-PKG_VERSION:=0.92.1
+PKG_VERSION:=0.93
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/minieap-$(PKG_VERSION)
 PKG_SOURCE_PROTO:=git
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/updateing/minieap.git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 
@@ -32,6 +34,7 @@ define Build/Compile
 	#$(Build/Compile/$(PKG_NAME))
 	$(SED) 's/ENABLE_ICONV.*/ENABLE_ICONV := false/g' $(PKG_BUILD_DIR)/config.mk
 	$(SED) 's/ENABLE_GBCONV.*/ENABLE_GBCONV := true/g' $(PKG_BUILD_DIR)/config.mk
+	$(SED) 's/COMMON_CFLAGS := $(CUSTOM_CFLAGS) $(CFLAGS) -Wall -Wpedantic -D_GNU_SOURCE/COMMON_CFLAGS := $(CUSTOM_CFLAGS) $(CFLAGS) -Wall -Wpedantic -D_GNU_SOURCE -std=c99/g' $(PKG_BUILD_DIR)/Makefile
 	$(MAKE) -C $(PKG_BUILD_DIR)/ \
 		$(TARGET_CONFIGURE_OPTS) \
 		CFLAGS="$(TARGET_CFLAGS)" \
