@@ -34,7 +34,7 @@ define Build/Compile
 	#$(Build/Compile/$(PKG_NAME))
 	$(SED) 's/ENABLE_ICONV.*/ENABLE_ICONV := false/g' $(PKG_BUILD_DIR)/config.mk
 	$(SED) 's/ENABLE_GBCONV.*/ENABLE_GBCONV := true/g' $(PKG_BUILD_DIR)/config.mk
-	$(SED) 's/COMMON_CFLAGS := $(CUSTOM_CFLAGS) $(CFLAGS) -Wall -Wpedantic -D_GNU_SOURCE/COMMON_CFLAGS := $(CUSTOM_CFLAGS) $(CFLAGS) -Wall -Wpedantic -D_GNU_SOURCE -std=c99/g' $(PKG_BUILD_DIR)/Makefile
+	$(SED) 's/COMMON_CFLAGS.*/& -std=c99/g' $(PKG_BUILD_DIR)/Makefile
 	$(MAKE) -C $(PKG_BUILD_DIR)/ \
 		$(TARGET_CONFIGURE_OPTS) \
 		CFLAGS="$(TARGET_CFLAGS)" \
